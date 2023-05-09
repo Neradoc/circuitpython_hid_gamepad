@@ -1,6 +1,3 @@
-# boot.py
-import usb_hid
-
 # This is only one example of a gamepad descriptor.
 # It may not suit your needs, or be supported on your host computer.
 
@@ -30,7 +27,7 @@ GAMEPAD_REPORT_DESCRIPTOR = bytes((
     0xC0,        # End Collection
 ))
 
-gamepad = usb_hid.Device(
+gamepad_descriptor = usb_hid.Device(
     report_descriptor=GAMEPAD_REPORT_DESCRIPTOR,
     usage_page=0x01,           # Generic Desktop Control
     usage=0x05,                # Gamepad
@@ -38,12 +35,3 @@ gamepad = usb_hid.Device(
     in_report_lengths=(6,),    # This gamepad sends 6 bytes in its report.
     out_report_lengths=(0,),   # It does not receive any reports.
 )
-
-"""
-usb_hid.enable(
-    (usb_hid.Device.KEYBOARD,
-     usb_hid.Device.MOUSE,
-     usb_hid.Device.CONSUMER_CONTROL,
-     gamepad)
-)
-"""
