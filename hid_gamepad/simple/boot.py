@@ -1,5 +1,6 @@
 # This is only one example of a gamepad descriptor.
 # It may not suit your needs, or be supported on your host computer.
+import usb_hid
 
 GAMEPAD_REPORT_DESCRIPTOR = bytes((
     0x05, 0x01,  # Usage Page (Generic Desktop Ctrls)
