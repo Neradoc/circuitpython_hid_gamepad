@@ -49,6 +49,6 @@ gamepad_descriptor = usb_hid.Device(
     usage_page=0x01,           # Generic Desktop Control
     usage=0x05,                # Gamepad
     report_ids=(4,),           # Descriptor uses report ID 4.
-    in_report_lengths=(9,),    # This gamepad sends 8 bytes in its report.
+    in_report_lengths=(9,),    # This gamepad sends 9 bytes in its report.
     out_report_lengths=(0,),   # It does not receive any reports.
 )

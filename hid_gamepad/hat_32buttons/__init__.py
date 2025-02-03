@@ -19,6 +19,43 @@ from adafruit_hid import find_device
 
 
 NUM_BUTTONS = 32
+VALUE_ERROR_MESSAGE = "direction must be a HatDirection constant or valid tuple"
+
+
+class HatDirection:
+    UP = 0x00
+    UPRIGHT = 0x01
+    RIGHT = 0x02
+    DOWNRIGHT = 0x03
+    DOWN = 0x04
+    DOWNLEFT = 0x05
+    LEFT = 0x06
+    UPLEFT = 0x07
+    NONE = 0x0F
+
+    table = {
+        # up right down left
+        (0,0,0,0): HatDirection.NONE,
+        (1,0,0,0): HatDirection.UP,
+        (1,1,0,0): HatDirection.UPRIGHT,
+        (0,1,0,0): HatDirection.RIGHT,
+        (0,1,1,0): HatDirection.DOWNRIGHT,
+        (0,0,1,0): HatDirection.DOWN,
+        (0,0,1,1): HatDirection.DOWNLEFT,
+        (0,0,0,1): HatDirection.LEFT,
+        (1,0,0,1): HatDirection.UPLEFT,
+    }
+    directions = [
+        HatDirection.UP,
+        HatDirection.UPRIGHT,
+        HatDirection.RIGHT,
+        HatDirection.DOWNRIGHT,
+        HatDirection.DOWN,
+        HatDirection.DOWNLEFT,
+        HatDirection.LEFT,
+        HatDirection.UPLEFT,
+        HatDirection.NONE,
+    ]
 
 
 class Gamepad:
@@ -125,17 +162,26 @@ class Gamepad:
             self._joy_r_z = self._validate_joystick_value(r_z)
         self._send()
 
-    def hat(self, *, button=None, up=None, down=None, left=None, right=None):
+    def hat(self, *, button=None, direction=None):
         if button is not None:
             self._hat = self._hat & 0b01111 | int(button) << 4
-        if up is not None:
-            self._hat = self._hat & 0b10111 | int(up) << 3
-        if down is not None:
-            self._hat = self._hat & 0b11011 | int(down) << 2
-        if left is not None:
-            self._hat = self._hat & 0b01101 | int(left) << 1
-        if right is not None:
-            self._hat = self._hat & 0b01110 | int(right)
+
+        if isinstance(direction, int):
+            if direction not in HatDirection.directions:
+                raise ValueError(VALUE_ERROR_MESSAGE)
+            self._hat = self._hat & 0b10000 | direction & 0b01111
+
+        elif isinstance(direction, (tuple, list)):
+            _direction = tuple(int(x) for x in direction)
+            _direction = HatDirection.table.get(_direction, None)
+            if _direction is None:
+                raise ValueError(VALUE_ERROR_MESSAGE)
+            self._hat = _direction
+
+        self._send()
+
+    def hat_release_all(self):
+        self._hat = 0
         self._send()
 
     def reset_all(self):
