@@ -6,7 +6,10 @@
 `Gamepad`
 ====================================================
 
-* Author(s): Dan Halbert
+* Author(s): Dan Halbert, Neradoc, werpu on github
+
+Borrowed from:
+https://gist.github.com/werpu/15d4166aa8d999af0d12f0c9d8a9eccf
 """
 
 import struct

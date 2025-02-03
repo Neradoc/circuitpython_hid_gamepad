@@ -1,5 +1,7 @@
-# This is only one example of a gamepad descriptor.
-# It may not suit your needs, or be supported on your host computer.
+"""
+Borrowed from:
+https://gist.github.com/werpu/15d4166aa8d999af0d12f0c9d8a9eccf
+"""
 import usb_hid
 
 # This is only one example of a gamepad descriptor, and may not suit your needs.
