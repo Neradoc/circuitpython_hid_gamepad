@@ -166,7 +166,7 @@ class Gamepad:
         if isinstance(direction, int):
             if direction not in HatDirection.directions:
                 raise ValueError(VALUE_ERROR_MESSAGE)
-            self._hat = self._hat & 0b10000 | direction & 0b01111
+            self._hat = direction
 
         elif isinstance(direction, (tuple, list)):
             _direction = tuple(int(x) for x in direction)
