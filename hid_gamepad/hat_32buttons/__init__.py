@@ -162,10 +162,7 @@ class Gamepad:
             self._joy_r_z = self._validate_joystick_value(r_z)
         self._send()
 
-    def hat(self, *, button=None, direction=None):
-        if button is not None:
-            self._hat = self._hat & 0b01111 | int(button) << 4
-
+    def hat(self, *, direction=None):
         if isinstance(direction, int):
             if direction not in HatDirection.directions:
                 raise ValueError(VALUE_ERROR_MESSAGE)
@@ -177,6 +174,9 @@ class Gamepad:
             if _direction is None:
                 raise ValueError(VALUE_ERROR_MESSAGE)
             self._hat = _direction
+
+        else:
+            raise ValueError(VALUE_ERROR_MESSAGE)
 
         self._send()
 
